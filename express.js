@@ -9,7 +9,7 @@ var db = mongoskin.db('mongodb://@localhost:27017/peopledatabase', {safe:true})
 
 app.all('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
   next();
 });
 
@@ -23,7 +23,7 @@ app.get('/', function(req, res, next) {
 })
 
 app.get('/:collectionName', function(req, res, next) {
-  req.collection.find({} ,{limit:5000, sort: [['_id',-1]]}).toArray(function(e, results){
+  req.collection.find({} ,{limit:500, sort: [['_id',-1]]}).toArray(function(e, results){
     if (e) return next(e)
     res.send(results)
   })
