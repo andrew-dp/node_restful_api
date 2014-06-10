@@ -1,9 +1,11 @@
 var express = require('express')
   , mongoskin = require('mongoskin')
   , bodyParser = require('body-parser')
+  , cors = require('cors')
 
 var app = express()
 app.use(bodyParser())
+app.use(cors())
 
 var db = mongoskin.db('mongodb://@localhost:27017/peopledatabase', {safe:true})
 
@@ -51,7 +53,7 @@ app.put('/:collectionName/:id', function(req, res, next) {
 })
 
 app.del('/:collectionName/:id', function(req, res, next) {
-  req.collection.removeById(req.params.id, function(e, result){
+  req.collection.remove({'id':parseInt(req.params.id)}, function(e, result){
     if (e) return next(e)
     res.send((result===1)?{msg:'success'}:{msg:'error'})
   })
